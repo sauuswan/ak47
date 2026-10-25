@@ -1,0 +1,94 @@
+wsl --list --verbose
+wsl --install -d Ubuntu
+ansible --version
+भाग 1: Ubuntu उघड
+
+Step 1: Start menu मध्ये PowerShell उघड आणि हे चालव:
+
+wsl -d Ubuntu
+
+Prompt sahil@LAPTOP...$ असा दिसला की तू Ubuntu मध्ये आहेस.
+
+भाग 2: Ansible install
+
+Step 2:
+
+sudo apt update
+sudo apt install ansible -y
+
+Step 3: Version तपास (screenshot घे 📸)
+
+ansible --version
+भाग 3: Folder आणि inventory
+
+Step 4:
+
+mkdir ansible-pr
+cd ansible-pr
+
+Step 5: Inventory file बनव (localhost साठी):
+
+echo "localhost ansible_connection=local" > inventory
+
+Step 6: Ping test (screenshot घे 📸)
+
+ansible -i inventory all -m ping
+
+SUCCESS आणि "ping": "pong" दिसलं पाहिजे.
+
+भाग 4: Playbook बनव
+
+Step 7:
+
+nano install.yml
+
+आत हे paste कर:
+
+yaml
+---
+- name: Software provisioning on localhost
+  hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Start and enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Configure custom web page
+      copy:
+        content: "Hello from Ansible!"
+        dest: /var/www/html/index.html
+
+Save: Ctrl + O → Enter → Ctrl + X
+
+भाग 5: Playbook चालव
+
+Step 8: Password अडचण टाळण्यासाठी (एकदाच password विचारेल):
+
+echo "sahil ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/sahil
+
+Step 9: Playbook run कर (screenshot घे 📸)
+
+ansible-playbook install.yml
+
+शेवटी failed=0 दिसलं पाहिजे.
+
+Step 10: Nginx सुरू कर:
+
+sudo service nginx start
+भाग 6: Result तपास
+
+Step 11: (screenshot घे 📸)
+
+curl localhost
+
+Hello from Ansible!
