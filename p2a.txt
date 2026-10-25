@@ -1,0 +1,216 @@
+# Practical 2: Git and GitHub — Complete Cheat Sheet
+
+**Aim:** To install Git and demonstrate `git init`, `add`, `commit`, `push`, `pull`, `branch`, `merge`, and `diff`.
+
+## STEP 1: Check Git Installation
+
+Open **Git Bash** and type:
+
+```bash
+git --version
+```
+
+Output: `git version 2.52.0.windows.1`
+
+## STEP 2: Configure Git Identity
+
+Run these commands (usually needed only once on your computer):
+
+```bash
+git config --global user.name "YOURNAME"
+git config --global user.email "YOURMAIL"
+```
+
+These commands set the name and email used for your commits.
+
+## STEP 3: Create a Folder and Initialise Git
+
+```bash
+mkdir Gitpr
+cd Gitpr
+git init
+```
+
+- `mkdir Gitpr` — creates a folder.
+- `cd Gitpr` — enters the folder.
+- `git init` — creates a Git repository.
+
+## STEP 4: Create a File and Check Status
+
+```bash
+echo "My first git practical" > notes.txt
+git status
+```
+
+The file appears as **Untracked** because Git has not started tracking it.
+
+## STEP 5: Stage and Commit the File
+
+```bash
+git add notes.txt
+git status
+git commit -m "First commit"
+```
+
+- `git add` — stages the file.
+- `git status` — checks the file status.
+- `git commit` — saves the staged changes in Git history.
+
+## STEP 6: Create and Switch to a Branch
+
+```bash
+git branch feature
+git switch feature
+git branch
+```
+
+The `*` symbol shows the current branch.
+
+## STEP 7: Create a File in the Feature Branch
+
+```bash
+echo "Feature work" > feature.txt
+git add feature.txt
+git commit -m "Add feature file"
+```
+
+This creates and commits a file in the `feature` branch.
+
+## STEP 8: Merge the Feature Branch into Main
+
+```bash
+git switch main
+git merge feature
+```
+
+This merges the changes from `feature` into `main`.
+
+## STEP 9: Demonstrate Git Diff
+
+Modify the existing file:
+
+```bash
+echo "Learning Git diff" >> notes.txt
+git diff
+```
+
+The `+` sign in the output shows the added line.
+
+Stage and commit the change:
+
+```bash
+git add notes.txt
+git commit -m "Update notes"
+```
+
+## STEP 10: Connect the Local Repository to GitHub
+
+**A. Open GitHub in your browser.**
+
+1. Go to https://github.com/ and sign in to your account.
+2. Create a new repository named `Gitpr`.
+3. Choose Public or Private.
+4. Leave README, `.gitignore`, and license unchecked to create an empty repository.
+5. Click **Create repository**.
+6. Copy the repository URL, for example:
+
+`https://github.com/YOUR-USERNAME/Gitpr.git`
+
+**B. Return to Git Bash.**
+
+Make sure you are inside the `Gitpr` folder and on the `main` branch.
+
+```bash
+git remote add origin https://github.com/YOUR-USERNAME/Gitpr.git
+git remote -v
+```
+
+Replace the example URL with your actual repository URL.
+
+- `git remote add origin` — connects your local repository to GitHub.
+- `git remote -v` — displays the remote repository URL.
+
+## STEP 11: Push Files to GitHub
+
+Run:
+
+```bash
+git push -u origin main
+```
+
+This uploads your local commits to GitHub and sets `main` to track the remote `main` branch.
+
+If Git asks you to authenticate, follow the browser sign-in or authorization prompt. Once authenticated, return to Git Bash and check that the push succeeds.
+
+**Important:** If you see `no upstream branch`, use:
+
+```bash
+git push --set-upstream origin main
+```
+
+## STEP 12: Create a File Directly on GitHub
+
+Now return to your **GitHub account in the browser**.
+
+1. Open your `Gitpr` repository.
+2. Click **Add file → Create new file**.
+3. Enter the filename:
+
+`exam.txt`
+
+4. In the editor, type:
+
+`Practising git pull`
+
+5. Click **Commit changes…**
+6. Enter a commit message, such as `Add exam file`.
+7. Select **Commit directly to the main branch**.
+8. Click the final **Commit changes** button.
+
+This creates and commits `exam.txt` on GitHub, but your local computer does not have the new file yet.
+
+## STEP 13: Pull the New File into Your Computer
+
+Return to Git Bash and run:
+
+```bash
+git pull origin main
+```
+
+Git downloads and integrates the latest changes from GitHub into your local `main` branch.
+
+Expected output includes:
+
+```text
+Fast-forward
+exam.txt | 1 +
+create mode 100644 exam.txt
+```
+
+The file is now available in your local `Gitpr` folder.
+
+## Important Commands to Remember
+
+| Command | Purpose |
+|---|---|
+| `git init` | Initialise a repository |
+| `git status` | Check file status |
+| `git add filename` | Stage a file |
+| `git commit -m "message"` | Save a commit |
+| `git branch` | List branches |
+| `git branch feature` | Create a branch |
+| `git switch feature` | Switch branches |
+| `git merge feature` | Merge a branch into the current branch |
+| `git diff` | Show unstaged changes |
+| `git remote -v` | Display remote URLs |
+| `git push -u origin main` | Push commits to GitHub |
+| `git pull origin main` | Pull and integrate remote changes |
+
+## Final Exam Reminder
+
+- Use Git Bash for the commands.
+- Use GitHub in the browser to create the remote repository and the `exam.txt` file.
+- Return to Git Bash after each browser step.
+- Do not repeat `git init` or Git identity configuration unnecessarily.
+- If the repository already exists, do not create it again.
+- Check the output after every important command to confirm success.
